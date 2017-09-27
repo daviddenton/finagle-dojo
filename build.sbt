@@ -1,3 +1,4 @@
+name := "finagle-dojo"
 
 scalaVersion := "2.12.1"
 
