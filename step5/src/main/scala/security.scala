@@ -45,6 +45,10 @@ class ConvertMessage extends Filter[Request, Response, EntryAttempt, AccessResul
   }
 }
 
+sealed class Result
+case class Granted(name: String) extends Result
+case object Denied extends Result
+
 class SecuritySystem(port: Int) {
   def start() = {
     val service = new ConvertMessage().andThen(
@@ -58,19 +62,25 @@ class SecuritySystem(port: Int) {
 class SecurityClient(port: Int) {
   private val client = Http.newService("localhost:" + port)
 
-  def access(id: Int): Future[String] = client(Request(Method.Post, "/"))
-    .flatMap {
-      resp: Response => resp.status match {
-        case Status.Ok => Future(resp.contentString)
-        case _ => Future.exception(new RuntimeException(s"error occured for id $id"))
+  def access(id: Int): Future[Result] = {
+    val request = Request(Method.Post, "/")
+    request.contentString = id.toString
+    client(request)
+      .flatMap {
+        resp: Response =>
+          resp.status match {
+            case Status.Ok => Future(Granted(resp.contentString))
+            case Status.Forbidden => Future(Denied)
+            case _ => Future.exception(new RuntimeException(s"error occured for id $id"))
+          }
       }
-    }
+  }
 }
 
 object SecurityApp extends App {
   new SecuritySystem(8000).start()
 
-  Await.result(new SecurityClient(8000).access(1))
-  Await.result(new SecurityClient(8000).access(2))
-  Await.result(new SecurityClient(8000).access(5))
+  println(Await.result(new SecurityClient(8000).access(1)))
+  println(Await.result(new SecurityClient(8000).access(2)))
+  println(Await.result(new SecurityClient(8000).access(5)))
 }

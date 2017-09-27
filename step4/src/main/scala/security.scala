@@ -48,3 +48,7 @@ class ConvertMessage extends Filter[Request, Response, EntryAttempt, AccessResul
 /**
   * 4. Mount the Service into a running HTTP Finagle server, and a domain client which we can use to call it remotely.
   */
+
+sealed class Result
+case class Granted(name: String) extends Result
+case object Denied extends Result
