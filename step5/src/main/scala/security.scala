@@ -1,5 +1,5 @@
 import com.twitter.finagle.http.{Method, Request, Response, Status}
-import com.twitter.finagle.{Filter, Http, Service}
+import com.twitter.finagle.{Filter, Http, ListeningServer, Service}
 import com.twitter.util.{Await, Future}
 
 case class UnknownId(id: Int) extends Exception(s"the user $id is unknown")
@@ -50,7 +50,7 @@ case class Granted(name: String) extends Result
 case object Denied extends Result
 
 class SecuritySystem(port: Int) {
-  def start() = {
+  def start(): ListeningServer = {
     val service = new ConvertMessage().andThen(
       new SecurityService(new DirectoryService())
     )
