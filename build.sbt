@@ -14,9 +14,10 @@ lazy val step3 = project.settings(baseSettings).settings(moduleName := "step3")
 
 lazy val step4 = project.settings(baseSettings).settings(moduleName := "step4")
 
+  lazy val step5 = project.settings(baseSettings).settings(moduleName := "step5")
+
 lazy val stepx = project.settings(baseSettings).settings(moduleName := "stepx")
 
 lazy val all = project.in(file("."))
   .settings(baseSettings)
-  .aggregate(step1, step2, step3, step4, stepx)
-  .dependsOn(step1, step2, step3, step4, stepx)
+  .aggregate(step1, step2, step3, step4, step5, stepx)
