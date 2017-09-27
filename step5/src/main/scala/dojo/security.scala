@@ -1,3 +1,5 @@
+package dojo
+
 import com.twitter.finagle.http.{Method, Request, Response, Status}
 import com.twitter.finagle.{Filter, Http, ListeningServer, Service}
 import com.twitter.util.{Await, Future}

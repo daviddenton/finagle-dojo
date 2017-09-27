@@ -1,4 +1,4 @@
-package com.twitter.finagle.step4
+package com.twitter.finagle
 
 import java.net.SocketAddress
 
@@ -7,17 +7,16 @@ import com.twitter.finagle.dispatch.{SerialClientDispatcher, SerialServerDispatc
 import com.twitter.finagle.netty4.{Netty4Listener, Netty4Transporter}
 import com.twitter.finagle.server.{Listener, StackServer, StdStackServer}
 import com.twitter.finagle.transport.Transport
-import com.twitter.finagle.{Client, ListeningServer, Name, Server, Service, ServiceFactory, Stack}
 import io.netty.channel.ChannelPipeline
 import io.netty.handler.codec.string.{StringDecoder, StringEncoder}
 
-case object EchoPipeline extends (ChannelPipeline => Unit) {
+case object SecurityPipeline extends (ChannelPipeline => Unit) {
   def apply(channelPipeline: ChannelPipeline): Unit = channelPipeline
     .addLast(new StringEncoder())
     .addLast(new StringDecoder())
 }
 
-object Echo extends Client[String, String] with Server[String, String] {
+object Security extends Client[String, String] with Server[String, String] {
 
   private case class Client(stack: Stack[ServiceFactory[String, String]] = StackClient.newStack, params: Stack.Params = StackClient.defaultParams)
     extends StdStackClient[String, String, Client] {
@@ -28,7 +27,7 @@ object Echo extends Client[String, String] with Server[String, String] {
     protected def copy1(stack: Stack[ServiceFactory[String, String]], params: Stack.Params): Client = copy(stack, params)
 
     protected def newTransporter(addr: SocketAddress): Transporter[String, String] =
-      Netty4Transporter.raw[String, String](EchoPipeline, addr, StackClient.defaultParams)
+      Netty4Transporter.raw[String, String](SecurityPipeline, addr, StackClient.defaultParams)
 
     protected def newDispatcher(transport: Transport[String, String]) = new SerialClientDispatcher(transport)
   }
@@ -47,7 +46,7 @@ object Echo extends Client[String, String] with Server[String, String] {
     protected def copy1(stack: Stack[ServiceFactory[String, String]] = this.stack, params: Stack.Params = this.params): Server
     = copy(stack, params)
 
-    protected def newListener(): Listener[String, String] = new Netty4Listener(EchoPipeline, params)
+    protected def newListener(): Listener[String, String] = new Netty4Listener(SecurityPipeline, params)
 
     protected def newDispatcher(transport: Transport[String, String], service: Service[String, String]) = new SerialServerDispatcher(transport, service)
   }

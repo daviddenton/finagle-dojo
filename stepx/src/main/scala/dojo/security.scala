@@ -1,6 +1,8 @@
-import com.twitter.finagle.http.{Request, Response, Status}
-import com.twitter.finagle.{Filter, Service}
-import com.twitter.util.Future
+package dojo
+
+import com.twitter.finagle.http.{Method, Request, Response, Status}
+import com.twitter.finagle.{Filter, Http, ListeningServer, Service}
+import com.twitter.util.{Await, Future}
 
 case class UnknownId(id: Int) extends Exception(s"the user $id is unknown")
 
@@ -45,10 +47,42 @@ class ConvertMessage extends Filter[Request, Response, EntryAttempt, AccessResul
   }
 }
 
-/**
-  * 4. Mount the Service into a running HTTP Finagle server, and a domain client which we can use to call it remotely.
-  */
-
 sealed class Result
 case class Granted(name: String) extends Result
 case object Denied extends Result
+
+class SecuritySystem(port: Int) {
+  def start(): ListeningServer = {
+    val service = new ConvertMessage().andThen(
+      new SecurityService(new DirectoryService())
+    )
+
+    Http.serve("localhost:8000", service)
+  }
+}
+
+class SecurityClient(port: Int) {
+  private val client = Http.newService("localhost:" + port)
+
+  def access(id: Int): Future[Result] = {
+    val request = Request(Method.Post, "/")
+    request.contentString = id.toString
+    client(request)
+      .flatMap {
+        resp: Response =>
+          resp.status match {
+            case Status.Ok => Future(Granted(resp.contentString))
+            case Status.Forbidden => Future(Denied)
+            case _ => Future.exception(new RuntimeException(s"error occured for id $id"))
+          }
+      }
+  }
+}
+
+object SecurityApp extends App {
+  new SecuritySystem(8000).start()
+
+  println(Await.result(new SecurityClient(8000).access(1)))
+  println(Await.result(new SecurityClient(8000).access(2)))
+  println(Await.result(new SecurityClient(8000).access(5)))
+}
