@@ -13,7 +13,7 @@ class DirectoryService extends Service[Int, String] {
 }
 
 /**
-  * 2. Implement a async SecurityService using the core Finagle API, which uses the DirectoryService to lookup the
+  * 2. Implement a async Service, SecurityService using the core Finagle API, which uses the DirectoryService to lookup the
   * name of the user from the incoming EntryAttempt and then grant them access by returning an AccessResult. In the
   * case of a failure, rescue the exception and return a appropriate result.
   */

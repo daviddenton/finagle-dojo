@@ -1,5 +1,5 @@
 /**
-  * 1. Implement a async DirectoryService using the core Finagle API, which takes an Int and looks up a corresponding name.
+  * 1. Implement a async Service, DirectoryService, using the core Finagle API, which takes an Int and looks up a corresponding name.
   * If there is no name found, throw an UnknownId
   */
 
