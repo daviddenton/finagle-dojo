@@ -47,3 +47,5 @@ Here is the only method that needs to be implemented when extending `Filter`:
 def apply(request: ReqIn, service: Service[ReqOut, RepIn]): Future[RepOut]
 ```
     
+## Other resources
+[This](https://lunatech.com/blog/WDwEjiUAACQAdhdw/an-introduction-of-finagle-by-example) blog post is a very good introduction
