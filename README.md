@@ -8,7 +8,10 @@ modules.
 
 1. The steps follow on from each other - each is an independent source tree which contains the answer to the previous step.
 1. Each folder contains the instructions for that step - they are scattered around the various files, so check them all!
-1. In the test folder, there is a RunnableEnvironment app which is designed to be used as an exercise yard for the code you've written. Feel free to download Scalatest instead an exercise it that way! :)
+1. In the test folder, there is a `RunnableEnvironment` app which is designed to be used as an exercise yard for the code you've written. Feel free to download Scalatest instead an exercise it that way! :)
+
+The problem space for this dojo is to implement a distributed system which provides a simple Security mechanism. The requirements for the system are simply to look up a 
+username for a provided user id. If the name can be found in a directory service, then access is granted. If the name cannot be found, access is denied. 
 
 ## Finagle Concepts
 
@@ -54,5 +57,5 @@ def apply(request: ReqIn, service: Service[ReqOut, RepIn]): Future[RepOut]
     
 ## Other resources
 
-1. [This](https://lunatech.com/blog/WDwEjiUAACQAdhdw/an-introduction-of-finagle-by-example) blog post is a very good introduction
-1. [Finagle guide](https://twitter.github.io/finagle/guide/)
+- [This](https://lunatech.com/blog/WDwEjiUAACQAdhdw/an-introduction-of-finagle-by-example) blog post is a very good introduction.
+- [Finagle guide](https://twitter.github.io/finagle/guide/)
