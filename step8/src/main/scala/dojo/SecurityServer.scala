@@ -4,6 +4,7 @@ import com.twitter.finagle.{Http, ListeningServer}
 
 class SecurityServer(port: Int, userDirectoryPort: Int) {
 
+  private val userDirectory = Http.newService(s"localhost$userDirectoryPort")
   private val client = new UserDirectoryClient(userDirectoryPort)
 
   def start(): ListeningServer = {

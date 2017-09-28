@@ -9,6 +9,6 @@ class SecurityServer(port: Int) {
       .andThen(new ConvertMessage())
       .andThen(new SecurityCheck(new UserDirectory()))
 
-    Http.serve("localhost:8000", httpSecurityCheck)
+    Http.serve(s"localhost:$port", httpSecurityCheck)
   }
 }

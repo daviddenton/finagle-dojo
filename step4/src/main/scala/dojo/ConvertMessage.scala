@@ -1,7 +1,6 @@
 package dojo
 
 
-
 /**
   * Write a Finagle Filter to adapt between HTTP request/responses and the EntryAttempt/AccessResult classes:
   * a. The incoming HTTP message will have with the User id in the body.

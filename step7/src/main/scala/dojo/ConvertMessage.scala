@@ -17,9 +17,9 @@ class ConvertMessage extends Filter[Request, Response, EntryAttempt, AccessResul
         case _: NumberFormatException => responseWithContent(Status.BadRequest, request.contentString)
       }
 
-  private def responseWithContent(ok: Status, name: String) = {
-    val response = Response(ok)
-    response.contentString = name
+  private def responseWithContent(status: Status, content: String) = {
+    val response = Response(status)
+    response.contentString = content
     response
   }
 }

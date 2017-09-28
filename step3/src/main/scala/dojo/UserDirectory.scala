@@ -11,5 +11,5 @@ class UserDirectory extends Service[Int, String] {
 
   override def apply(request: Int): Future[String] = idToName.get(request)
     .map(name => Future(name))
-    .getOrElse( Future.exception(UnknownId(request)))
+    .getOrElse(Future.exception(UnknownId(request)))
 }
