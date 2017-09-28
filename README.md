@@ -2,6 +2,7 @@ Finagle Dojo
 ============
 
 ## Introduction
+
 This is a set of exercises designed to teach the way in which Finagle works. The project consists of a number of "step" 
 modules. 
 
@@ -10,9 +11,11 @@ modules.
 1. In the test folder, there is a RunnableEnvironment app which is designed to be used as an exercise yard for the code you've written. Feel free to download Scalatest instead an exercise it that way! :)
 
 ## Finagle Concepts
+
 There are 3 main concepts used by Finagle:
 
 ### Future
+
 The abstract class `com.twitter.util.Future[A]` represents the result of an asynchronous operation, generified by it's result type. Note that Twitter Futures are NOT Scala Futures and have a different API. 
 [Here](https://stackoverflow.com/questions/32987855/what-are-advantages-of-a-twitter-future-over-a-scala-future) is a SO answer detailing the differences.
 
@@ -28,6 +31,7 @@ A Future has 2 end states - Value, and Exception
 1. `futureT.onFailure(fn: A => Unit): Future[T]` - attach an on-failure listener to Future
 
 ### Service
+
 The abstract class `com.twitter.finagle.Service[Req, Resp]` represents a service providing an asynchronous operation, generified by it's input and output types.
 
 Here is the only method that needs to be implemented when extending `Service`:
@@ -36,6 +40,7 @@ def apply(request: Req): Future[Rep]
 ```
 
 ### Filter
+
 The abstract class `com.twitter.finagle.Filter[ReqIn, RepOut, ReqOut, RepIn]` is a layer that wraps a `Service` to provide pre and post operation processing. This is used for:
 1. Message transformation - from `ReqIn` to `ReqOut` and from `RepIn` to `RepOut`
 <img src="https://prismic-io.s3.amazonaws.com/lunatech/458f8af9cbc1cacaddc01c6cbe80b347cb05de28_yue2.png"/>
