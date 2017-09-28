@@ -2,6 +2,9 @@ package dojo
 
 import com.twitter.finagle.{Service, SimpleFilter}
 
+/**
+  * Change this Filter to audit the identity of the server which is running.
+  */
 class Audit[In, Out] extends SimpleFilter[In, Out] {
   override def apply(request: In, service: Service[In, Out]) = {
     val start = System.nanoTime()

@@ -1,6 +1,5 @@
 package dojo
 
-import com.twitter.finagle.{Security, Service}
 import com.twitter.util.{Await, Future}
 
 /**
@@ -10,7 +9,6 @@ object RunnableEnvironment extends App {
 
   def run(f: Future[_]): Unit = println(Await.result(f.handle { case e => "Failure: " + e.getMessage }))
 
-  Security.newService("localhost:8000")
   new UserDirectoryServer(9000).start()
   new UserDirectoryServer(9001).start()
   new UserDirectoryServer(9002).start()
@@ -20,13 +18,4 @@ object RunnableEnvironment extends App {
   run(new SecurityClient(8000).access(2))
   run(new SecurityClient(8000).access(3))
   run(new SecurityClient(8000).access(5))
-
-
-  Security.serve(s"localhost:8000", new Service[String, String] {
-    override def apply(request: String) = Future(request)
-  })
-
-  val client = Security.newService("localhost:8000")
-
-  println(Await.result(client("hello")))
 }

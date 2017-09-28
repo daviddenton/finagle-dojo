@@ -15,6 +15,6 @@ class SecurityCheck(userDirectory: UserDirectory) extends Service[EntryAttempt, 
   override def apply(request: EntryAttempt): Future[AccessResult] = userDirectory(request.id)
     .map(AccessResult(_, true, "success"))
     .handle {
-      case e: UnknownId => AccessResult("unknown", false, e.getMessage)
+      case e => AccessResult("unknown", false, e.getMessage)
     }
 }

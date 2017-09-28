@@ -4,20 +4,24 @@ import com.twitter.finagle.Http
 import com.twitter.finagle.http.{Method, Request, Response, Status}
 import com.twitter.util.Future
 
-/**
-  * Adapt this client to load balance between multiple server instances.
-  */
-class UserDirectoryClient(port: Int) {
+sealed class Result
+
+case class Granted(name: String) extends Result
+
+case object Denied extends Result
+
+class SecurityClient(port: Int) {
   private val client = Http.newService("localhost:" + port)
 
-  def lookup(id: Int): Future[String] = {
+  def access(id: Int): Future[Result] = {
     val request = Request(Method.Post, "/")
     request.contentString = id.toString
     client(request)
       .flatMap {
         resp: Response =>
           resp.status match {
-            case Status.Ok => Future(resp.contentString)
+            case Status.Ok => Future(Granted(resp.contentString))
+            case Status.Forbidden => Future(Denied)
             case _ => Future.exception(new RuntimeException(s"error occurred for id $id"))
           }
       }
