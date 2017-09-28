@@ -14,8 +14,9 @@ object RunnableEnvironment extends App {
   new UserDirectoryServer(9002).start()
   new SecurityServer(8000, 9000, 9001, 9002).start()
 
-  run(new SecurityClient(8000).access(1))
-  run(new SecurityClient(8000).access(2))
-  run(new SecurityClient(8000).access(3))
-  run(new SecurityClient(8000).access(5))
+  val client = new SecurityClient(8000)
+  run(client.access(1))
+  run(client.access(2))
+  run(client.access(3))
+  run(client.access(5))
 }
