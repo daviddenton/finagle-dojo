@@ -53,5 +53,6 @@ def apply(request: ReqIn, service: Service[ReqOut, RepIn]): Future[RepOut]
 ```
     
 ## Other resources
-[This](https://lunatech.com/blog/WDwEjiUAACQAdhdw/an-introduction-of-finagle-by-example) blog post is a very good introduction
-[Finagle guide](https://twitter.github.io/finagle/guide/)
+
+1. [This](https://lunatech.com/blog/WDwEjiUAACQAdhdw/an-introduction-of-finagle-by-example) blog post is a very good introduction
+1. [Finagle guide](https://twitter.github.io/finagle/guide/)
