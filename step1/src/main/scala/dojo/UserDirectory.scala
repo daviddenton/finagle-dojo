@@ -1,7 +1,7 @@
 package dojo
 
 /**
-  * 1. Implement a async Service, DirectoryService, using the core Finagle API, which takes an Int and looks up a corresponding name.
+  * Implement a async Service, UserDirectory, using the core Finagle API, which takes an Int and looks up a corresponding name.
   * If there is no name found, throw an UnknownId
   *
   * The known users are:
