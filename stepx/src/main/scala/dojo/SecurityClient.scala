@@ -22,7 +22,7 @@ class SecurityClient(port: Int) {
           resp.status match {
             case Status.Ok => Future(Granted(resp.contentString))
             case Status.Forbidden => Future(Denied)
-            case _ => Future.exception(new RuntimeException(s"error occured for id $id"))
+            case _ => Future.exception(new RuntimeException(s"error occurred for id $id"))
           }
       }
   }

@@ -15,7 +15,7 @@ class UserDirectoryClient(port: Int) {
         resp: Response =>
           resp.status match {
             case Status.Ok => Future(resp.contentString)
-            case _ => Future.exception(new RuntimeException(s"error occured for id $id"))
+            case _ => Future.exception(new RuntimeException(s"error occurred for id $id"))
           }
       }
   }
