@@ -10,7 +10,8 @@ object RunnableEnvironment extends App {
 
   def run(f: Future[_]): Unit = println(Await.result(f.handle { case e => "Failure: " + e.getMessage }))
 
-  val httpSecurityCheck = new ConvertMessage()
+  val httpSecurityCheck = new Audit()
+    .andThen(new ConvertMessage())
     .andThen(new SecurityCheck(new UserDirectory()))
 
   def requestFor(id: Int) = {
