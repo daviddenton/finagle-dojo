@@ -2,6 +2,9 @@ package dojo
 
 import com.twitter.finagle.{Http, ListeningServer}
 
+/**
+  * Introduce the BadBehaviourFilter to this server.
+  */
 class UserDirectoryServer(port: Int) {
 
   def start(): ListeningServer = {

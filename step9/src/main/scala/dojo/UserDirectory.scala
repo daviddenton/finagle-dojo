@@ -13,5 +13,3 @@ class UserDirectory extends Service[Int, String] {
     .map(name => Future(name))
     .getOrElse(Future.exception(UnknownId(request)))
 }
-
-

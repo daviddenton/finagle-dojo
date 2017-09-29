@@ -1,12 +1,11 @@
 package dojo
 
-import com.twitter.finagle.Http
 import com.twitter.finagle.http.{Method, Request, Response, Status}
 import com.twitter.util.Future
 
 class UserDirectoryClient(ports: Int*) {
 
-  private val client = Http.newService(ports.map("localhost:" + _).mkString(","))
+  private val client = ResilientHttpClient.newService(ports: _*)
 
   def lookup(id: Int): Future[String] = {
     val request = Request(Method.Post, "/")

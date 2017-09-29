@@ -6,6 +6,7 @@ class UserDirectoryServer(port: Int) {
 
   def start(): ListeningServer = {
     val httpSecurityCheck = new Audit(s"UserDirectoryServer:$port")
+      .andThen(new BadBehaviour())
       .andThen(new ConvertUserMessage())
       .andThen(new UserDirectory())
 

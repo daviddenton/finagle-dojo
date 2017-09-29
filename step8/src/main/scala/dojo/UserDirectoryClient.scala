@@ -4,9 +4,6 @@ import com.twitter.finagle.Http
 import com.twitter.finagle.http.{Method, Request, Response, Status}
 import com.twitter.util.Future
 
-/**
-  * Adapt this client to load balance between multiple server instances.
-  */
 class UserDirectoryClient(port: Int) {
   private val client = Http.newService("localhost:" + port)
 
