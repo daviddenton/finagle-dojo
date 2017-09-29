@@ -7,7 +7,7 @@ class Audit[In, Out](id: String) extends SimpleFilter[In, Out] {
     val start = System.currentTimeMillis()
     service(request)
       .onSuccess {
-        result => println(s"$id: Looked up $request. Got $result in ${System.currentTimeMillis() - start}ns")
+        result => println(s"$id: Looked up $request. Got $result in ${System.currentTimeMillis() - start}ms")
       }
       .onFailure {
         result => println(s"$id: Request for $request failed. Got $result in ${System.currentTimeMillis() - start}ms")
