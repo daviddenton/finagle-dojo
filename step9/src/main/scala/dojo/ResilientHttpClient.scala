@@ -5,12 +5,17 @@ import java.util.concurrent.atomic.AtomicLong
 import com.twitter.finagle.http.{Request, Response}
 import com.twitter.finagle.service.RetryBudget
 import com.twitter.finagle.{Http, Service}
+import com.twitter.util.Duration
 
 object ResilientHttpClient {
+  private val backoffDurations = Stream(Duration.fromMilliseconds(500), Duration.fromMilliseconds(1000))
+
   def newService(ports: Int*): Service[Request, Response] =
     Http.client
+      .withRetryBackoff(backoffDurations)
       .withRetryBudget(new UpToNRetries(2))
       .newService(ports.map("localhost:" + _).mkString(","))
+
 }
 
 class UpToNRetries(private val start: Long) extends RetryBudget {
