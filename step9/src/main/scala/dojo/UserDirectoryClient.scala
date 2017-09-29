@@ -5,7 +5,7 @@ import com.twitter.util.Future
 
 class UserDirectoryClient(ports: Int*) {
 
-  private val client = ResilientHttpClient.newService(ports: _*)
+  private val client = ResilientHttp.newService(ports: _*)
 
   def lookup(id: Int): Future[String] = {
     val request = Request(Method.Post, "/")

@@ -4,6 +4,9 @@ import com.twitter.finagle.Http
 import com.twitter.finagle.http.{Method, Request, Response, Status}
 import com.twitter.util.Future
 
+/**
+  * Use the new ResilientHttpClient in this Client.
+  */
 class UserDirectoryClient(port: Int) {
   private val client = Http.newService("localhost:" + port)
 
