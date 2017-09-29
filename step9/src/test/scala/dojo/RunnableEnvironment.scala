@@ -8,7 +8,6 @@ import com.twitter.util.{Await, Duration, Future}
   */
 object RunnableEnvironment extends App {
 
-
   def run[A](f: => Future[A]): Unit = {
     println(
       Await.result(
