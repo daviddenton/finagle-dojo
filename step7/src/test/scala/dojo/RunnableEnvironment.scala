@@ -1,0 +1,19 @@
+package dojo
+
+import com.twitter.util.{Await, Future}
+
+/**
+  * Use this object as a place to run the code as it's created
+  */
+object RunnableEnvironment extends App {
+
+  def run(f: Future[_]): Unit = println(Await.result(f.handle { case e => "Failure: " + e.getMessage }))
+
+  new SecurityServer(8000).start()
+
+  val client = new SecurityClient(8000)
+  run(client.access(1))
+  run(client.access(2))
+  run(client.access(3))
+  run(client.access(5))
+}
