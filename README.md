@@ -33,6 +33,18 @@ A Future has 2 end states - Value, and Exception
 1. `futureT.onSuccess(fn: A => Unit): Future[T]` - attach an on-success listener to Future 
 1. `futureT.onFailure(fn: A => Unit): Future[T]` - attach an on-failure listener to Future
 
+Example:
+```scala
+val result: String = Await.result(
+  Future.value("content")
+    .map(v => v + v)
+    .flatMap(v => Future(v))
+    .handle {
+      case _: Exception => "failed"
+    }
+)
+```
+
 ### Service
 
 The abstract class `com.twitter.finagle.Service[Req, Resp]` represents a service providing an asynchronous operation, generified by it's input and output types.
@@ -40,6 +52,17 @@ The abstract class `com.twitter.finagle.Service[Req, Resp]` represents a service
 Here is the only method that needs to be implemented when extending `Service`:
 ```scala
 def apply(request: Req): Future[Rep]
+```
+
+Example:
+```scala
+val service = new Service[Request, Response] {
+  override def apply(request: Request): Future[Response] = {
+    val response = Response(Status.Ok)
+    response.content = request.content
+    Future(response)
+  }
+}
 ```
 
 ### Filter
@@ -55,6 +78,17 @@ Here is the only method that needs to be implemented when extending `Filter`:
 def apply(request: ReqIn, service: Service[ReqOut, RepIn]): Future[RepOut]
 ```
     
+Example:
+```scala
+val addType = new Filter[Request, Response, Request, Response] {
+  override def apply(request: Request, service: Service[Request, Response]) = {
+    service(request).map(resp => {
+      resp.headerMap("Content-type") = "application/json"
+      resp
+    })
+  }
+}
+```
 ## Other resources
 
 - [This](https://lunatech.com/blog/WDwEjiUAACQAdhdw/an-introduction-of-finagle-by-example) blog post is a very good introduction.
