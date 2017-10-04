@@ -1,4 +1,4 @@
-###Stage 1
+### Step 1
 
 Implement an async Service, UserDirectory, using the core Finagle API, which takes an Int and looks up a corresponding name.
 If there is no name found, throw an UnknownId.

@@ -1,4 +1,4 @@
-###Stage 4
+### Step 4
 
 Write a Finagle Filter, ConvertMessage, to adapt between HTTP request/responses and the EntryAttempt/AccessResult classes:
   - The incoming HTTP message will have with the User id in the body.
